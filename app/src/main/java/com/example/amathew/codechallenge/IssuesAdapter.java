@@ -5,33 +5,42 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by amathew on 9/4/15.
  */
-public class IssuesAdapter extends CursorAdapter{
+public class IssuesAdapter extends ArrayAdapter<Map<String, String>> {
 
-    public IssuesAdapter(Context context) {
-        super(context, null,  android.widget.CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+    public IssuesAdapter(Context context, int textViewResourceId, ArrayList<Map<String, String>> items) {
+        super(context, textViewResourceId, items);
+
     }
 
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        final View view;
-        view = LayoutInflater.from(context).inflate(R.layout.issues_row_item, parent, false);
-        if (view != null) {
-            final ViewHolder viewHolder = new ViewHolder(view);
-            view.setTag(viewHolder);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(this.getContext())
+                    .inflate(R.layout.issues_row_item, parent, false);
+
+            viewHolder = new ViewHolder(convertView);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        return view;
-    }
 
-    @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        final ViewHolder viewHolder = (ViewHolder) view.getTag();
-        viewHolder.issueTitle.setText("issue title...");
+        Map<String, String> item = getItem(position);
+        if (item != null) {
+            viewHolder.issueTitle.setText(item.get("title"));
+        }
+
+        return convertView;
     }
 
     protected class ViewHolder {

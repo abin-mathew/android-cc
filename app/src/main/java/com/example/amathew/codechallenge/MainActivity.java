@@ -41,7 +41,8 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity{
 
-    private ArrayAdapter<Map<String,String>> mIssuesAdapter;
+    private ArrayAdapter<Map<String,String>> mNativeIssuesAdapter;
+    private IssuesAdapter mIssuesAdapter;
     private ProgressDialog progress;
 
     public static final String TAG = "debug_log";
@@ -61,10 +62,9 @@ public class MainActivity extends AppCompatActivity{
         FetchIssueTask issueFetchTask = new FetchIssueTask();
         issueFetchTask.execute();
 
-        mIssuesAdapter = new ArrayAdapter<Map<String,String>>(
+        mIssuesAdapter = new IssuesAdapter(
                 this,
                 R.layout.issues_row_item,
-                R.id.issue_title,
                 new ArrayList<Map<String,String>>());
 
         ListView listView = (ListView) findViewById(R.id.issue_list);

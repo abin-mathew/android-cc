@@ -23,8 +23,6 @@ import java.util.Map;
 
 public class IssueDetailActivity extends AppCompatActivity {
 
-    private ArrayAdapter<String> mCommentsAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

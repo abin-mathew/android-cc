@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.amathew.codechallenge.util.CommonUtil;
 
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 public class IssueDetailActivityFragment extends Fragment {
 
     private ProgressDialog progress;
+    private View fragmentRootView;
 
     private ArrayAdapter<String> mCommentsAdapter;
     public IssueDetailActivityFragment() {
@@ -43,16 +45,19 @@ public class IssueDetailActivityFragment extends Fragment {
         String commentsUrl = intent.getStringExtra(MainActivity.EXTRA_COMMENTS_URL);
         issueFetchTask.execute(commentsUrl);
 
-        View rootView = inflater.inflate(R.layout.fragment_issue_detail, container, false);;
+        fragmentRootView = inflater.inflate(R.layout.fragment_issue_detail, container, false);;
         mCommentsAdapter = new ArrayAdapter<String>(
                 activity,
                 R.layout.comments_row_item,
                 R.id.comment_title,
                 new ArrayList<String>());
 
-        ListView listView = (ListView) rootView.findViewById(R.id.comment_list);
+        ListView listView = (ListView) fragmentRootView.findViewById(R.id.comment_list);
         listView.setAdapter(mCommentsAdapter);
-        return rootView;
+
+        View emptyView = fragmentRootView.findViewById(R.id.empty_list);
+        listView.setEmptyView(emptyView);
+        return fragmentRootView;
     }
 
     private void showProgressSpinner() {
